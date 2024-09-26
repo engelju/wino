@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { fetchWines } from '../services/indexedDB';
+import '../App.css';
 
 function WineList() {
   const [wines, setWines] = useState([]);
 
   useEffect(() => {
-    const fetchWines = async () => {
+    const getWines = async () => {
       try {
-        const response = await axios.get('/api/wines');
-        setWines(response.data);
+        const data = await fetchWines();
+        setWines(data);
       } catch (error) {
         console.error('Error fetching wines:', error);
       }
     };
 
-    fetchWines();
+    getWines();
   }, []);
 
   return (

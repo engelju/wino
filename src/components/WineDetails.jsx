@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import { fetchWineDetails } from '../services/indexedDB';
+import '../App.css';
 
 function WineDetails() {
   const { id } = useParams();
   const [wine, setWine] = useState(null);
 
   useEffect(() => {
-    const fetchWineDetails = async () => {
+    const getWineDetails = async () => {
       try {
-        const response = await axios.get(`/api/wines/${id}`);
-        setWine(response.data);
+        const data = await fetchWineDetails(Number(id));
+        setWine(data);
       } catch (error) {
         console.error('Error fetching wine details:', error);
       }
     };
 
-    fetchWineDetails();
+    getWineDetails();
   }, [id]);
 
   if (!wine) {
